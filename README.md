@@ -197,7 +197,7 @@ return post.object.export()
 posts = Post().objects.all(items=0, pages=0) # items, pages for pagination, set items=0 to disable
 
 # if there is more than one to export you'll need to do it like that:
-posts["data"] = [post.object.export() for post in posts["data"]]
+posts["data"] = [post.objects.export() for post in posts["data"]]
 return posts
 
 ```
