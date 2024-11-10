@@ -146,8 +146,60 @@ class Post(ObjectManager):
 
     # ...
 
+# get one Specific
 post = Post().objects.get("some_post_id")
-print(post.author)
+print(post)
+
+# get specific
+posts = Post().objects.filter({}, items=0, pages=0) # use mongodb query for filtering
+
+# get all
+posts = Post().objects.all(items=0, pages=0) # items, pages for pagination, set items=0 to disable
+
+# update
+post = Post().objects.get("some_post_id")
+setattr(post, "author", "otherObjectIdOfUser")
+post.objects.update()
+
+# delete
+post = Post().objects,get("some_post_id")
+post.objects.delete()
+
+```
+
+### Exporting the objects for displaying in web etc.
+
+You'll need to export the objects to display them for example on a webpage / fastapi backend
+
+#### Example
+
+```python
+
+class Post(ObjectManager):
+    _id = ObjectId
+    author = str()
+    # ...
+
+    class Meta:
+        __collection__ = "posts"
+        author = ObjectManager.ForeignKey(User)
+        # fieldNameOfModel = ObjectManager.FOREIGN_RELEATIONSHIP(modalClassOfReplacement)
+
+    # ...
+
+# get one Specific
+post = Post().objects.get("some_post_id")
+
+# export one object
+return post.object.export()
+
+# get all
+posts = Post().objects.all(items=0, pages=0) # items, pages for pagination, set items=0 to disable
+
+# if there is more than one to export you'll need to do it like that:
+posts["data"] = [post.object.export() for post in posts["data"]]
+return posts
+
 ```
 
 ### Using Monject's Security
@@ -200,11 +252,11 @@ Database:
 ```
 /
 - ...
-- models
+- models // Define every model in a seperate File
     - User.py
     - Post.py
     - ...
-- routers
+- routers // have for every model a router including following features: getAll, getSpecific, update, delete
     - users.py
     - posts.py
     - me.py
