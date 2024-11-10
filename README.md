@@ -62,6 +62,21 @@ class User(ObjectManager):
 
 user = User().objects.get("some_user_id")
 print(user)
+
+# get specific
+users = User().objects.filter({}, items=0, pages=0) # use mongodb query for filtering
+
+# get all
+users = User().objects.all(items=0, pages=0) # items, pages for pagination, set items=0 to disable
+
+# update
+user = User().objects.get("some_user_id")
+setattr(user, "email", "john@doe.com")
+user.objects.update()
+
+# delete
+user = User().objects,get("some_user_id")
+user.objects.delete()
 ```
 
 ### Foreign Key Relationships
@@ -150,20 +165,6 @@ class Post(ObjectManager):
 post = Post().objects.get("some_post_id")
 print(post)
 
-# get specific
-posts = Post().objects.filter({}, items=0, pages=0) # use mongodb query for filtering
-
-# get all
-posts = Post().objects.all(items=0, pages=0) # items, pages for pagination, set items=0 to disable
-
-# update
-post = Post().objects.get("some_post_id")
-setattr(post, "author", "otherObjectIdOfUser")
-post.objects.update()
-
-# delete
-post = Post().objects,get("some_post_id")
-post.objects.delete()
 
 ```
 
