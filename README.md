@@ -3,6 +3,8 @@
 
 Monject is an Object Mapper for MongoDB, designed to simplify the interaction with MongoDB databases by providing an intuitive and Pythonic interface. Monject is primarly designed as an fastapi extension but can also be used without fastapi.
 
+[![PyPI version](https://img.shields.io/pypi/v/monject.svg)](https://pypi.org/project/monject/)
+
 ## Features
 
 - **Object Mapping**: Map MongoDB documents to Python objects.
