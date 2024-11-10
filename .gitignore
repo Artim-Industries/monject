@@ -1,0 +1,6 @@
+venv/
+monject.egg-info/
+dist/
+build/
+.env
+tests/
