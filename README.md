@@ -6,7 +6,7 @@ Monject is an Object Mapper for MongoDB, designed to simplify the interaction wi
 ## Features
 
 - **Object Mapping**: Map MongoDB documents to Python objects.
-- **Foreign Key Relationships**: Support for various types of foreign key relationships including `ForeignKey`, `MultiForeignKey`, `EmbeddedMultiForeignKey`, and `EmbeddedMultiToMultiForeignKey`.
+- **Foreign Key Relationships**: Support for various types of foreign key relationships including `ForeignKey`, `MultiForeignKey`, `EmbeddedMultiForeignKey`, `EmbeddedMultiToMultiForeignKey` and `NestedConditionedForeignKey`.
 - **CRUD Operations**: Easily perform Create, Read, Update, and Delete operations.
 - **Pagination**: Built-in support for paginated queries.
 - **Security**: Token-based authentication and password hashing.
