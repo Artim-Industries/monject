@@ -197,7 +197,7 @@ Database:
 ```
 
 ## Example Project Structure with fastapi
-
+```
 /
 - ...
 - models
@@ -211,6 +211,7 @@ Database:
     - ...
 - index.py
 - ...
+```
 
 ## License
 
