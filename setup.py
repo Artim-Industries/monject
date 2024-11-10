@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="monject",
-    version="0.1.5",
+    version="0.1.6",
     author="Artim Industries",
     author_email="mauritzlemgen@artim-industries.com",
     description="An Object Mapper for MongoDB",

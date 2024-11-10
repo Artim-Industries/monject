@@ -16,7 +16,7 @@ class Security:
     def hashPassword(self, password: str, secret: str):
         return hash(password, secret)
 
-    def issueToken(self, user):
+    def issueToken(self, user: object):
         payload = {
             "sub": user._id,
             "iat": datetime.datetime.now().timestamp()
@@ -24,12 +24,11 @@ class Security:
 
         return jwt.encode(payload, self.secret, algorithm="HS256")
 
-"""
-    def getCurrentUser(self, token: str):
+    def getCurrentUser(self, token: str, UserModel: object):
         try:
             payload = jwt.decode(token, self.secret, algorithms=["HS256"])
             sub = payload["sub"]
-            user = User().objects.get(sub)
+            user = UserModel().objects.get(sub)
             if user is None:
                 raise HTTPException(status_code=401, detail="User not found")
             return user
@@ -37,13 +36,13 @@ class Security:
             print(e)
             raise HTTPException(status_code=401, detail="Invalid token (" + str(e) + ")")
 
-    def checkToken(self, token: str):
+    def checkToken(self, token: str, UserModel: object):
         try:
             payload = jwt.decode(token, self.secret, algorithms=["HS256"])
             iat = payload["iat"]
             sub = payload["sub"]
 
-            user = User().objects.get(sub)
+            user = UserModel().objects.get(sub)
             if user is None:
                 raise HTTPException(status_code=401, detail="User not found")
 
@@ -52,4 +51,4 @@ class Security:
 
             return True
         except Exception as e:
-            raise HTTPException(status_code=401, detail="Invalid token (" + str(e) + ")")"""
+            raise HTTPException(status_code=401, detail="Invalid token (" + str(e) + ")")
