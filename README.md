@@ -191,7 +191,7 @@ class Post(ObjectManager):
 post = Post().objects.get("some_post_id")
 
 # export one object
-return post.object.export()
+return post.objects.export()
 
 # get all
 posts = Post().objects.all(items=0, pages=0) # items, pages for pagination, set items=0 to disable
