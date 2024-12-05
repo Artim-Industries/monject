@@ -19,9 +19,7 @@ Monject is an Object Mapper for MongoDB, designed to simplify the interaction wi
 To install the required dependencies, run:
 
 ```sh
-pip install -r 
-
-requirements.txt
+pip install monject
 ```
 
 ## Usage
