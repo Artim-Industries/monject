@@ -25,6 +25,7 @@ class ObjectManager:
             self.parentObject = parentObject
             self.exported = False
             self.runs = 0
+            self.level = 0
             self.__collection__ = meta.__collection__
             
         def instantiate(self, content: dict, status: int = 0):
@@ -150,7 +151,29 @@ class ObjectManager:
                     
                     final[key] = getattr(obj, key)
             
-            return final
+            return self.IdCheck(final)
+        
+        def IdCheck(self, _dict: dict):
+            self.level += 1
+
+            if self.level > 100:
+                return _dict
+            
+            for key, value in _dict.items():
+                if isinstance(value, dict):
+                    _dict[key] = self.IdCheck(value)
+                elif isinstance(value, list):
+                    for index, item in enumerate(value):
+                        if isinstance(item, dict):
+                            _dict[key][index] = self.IdCheck(item)
+                        elif isinstance(item, ObjectId):
+                            _dict[key][index] = str(item)
+                elif isinstance(value, ObjectId):
+                    _dict[key] = str(value)
+
+                
+                
+            return _dict
 
         def export(self):
             if self.exported == True:
