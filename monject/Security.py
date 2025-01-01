@@ -1,6 +1,7 @@
 import jwt
 import configparser
 from fastapi import HTTPException
+from fastapi.security import HTTPBasicCredentials
 import datetime
 from pyargon2 import hash
 
@@ -15,6 +16,15 @@ class Security:
         
     def hashPassword(self, password: str, secret: str):
         return hash(password, secret)
+    
+    def basic(self, credentials: HTTPBasicCredentials, UserModel: object, fields: object = {"username": "username", "password": "password"}):
+        username = credentials.username
+        password = credentials.password
+        
+        user = UserModel().objects.filter({fields["username"]: username, fields["password"]: self.hashPassword(password, self.secret)})
+        if len(user["data"]) == 0:
+            raise HTTPException(status_code=401, detail="Invalid credentials")
+        return True
 
     def issueToken(self, user: object):
         payload = {
