@@ -25,6 +25,15 @@ class Security:
         if len(user["data"]) == 0:
             raise HTTPException(status_code=401, detail="Invalid credentials")
         return True
+    
+    def basicSession(self, credentials: HTTPBasicCredentials, UserModel: object, fields: object = {"username": "username", "password": "password"}):
+        username = credentials.username
+        password = credentials.password
+        
+        user = UserModel().objects.filter({fields["username"]: username, fields["password"]: self.hashPassword(password, self.secret)})
+        if len(user["data"]) == 0:
+            raise HTTPException(status_code=401, detail="Invalid credentials")
+        return user["data"][0]
 
     def issueToken(self, user: object):
         payload = {
