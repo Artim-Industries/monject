@@ -451,18 +451,40 @@ class ObjectManager:
             _final = {key: _final[key] for key in _final if not key.startswith("__")}
             keysOfForeignKeys = [key.upper() for key in self.__class__.__dict__]
 
+            allKeysOfForeignKeys = [elem for elem in _final["Meta"].__dict__ if not elem.startswith("__")]
+            allTypesOfForeignKeys = [type(_final["Meta"].__dict__[elem]) for elem in allKeysOfForeignKeys if not elem.startswith("__")]
+
+            __final = copy.deepcopy(_final)
+            for index, key in enumerate(allKeysOfForeignKeys):
+                if allTypesOfForeignKeys[index] == ObjectManager.ForeignKey:
+                    __final[key] = _final[key]._id
+
+                if allTypesOfForeignKeys[index] == ObjectManager.MultiForeignKey:
+                    __final[key] = [_final[key][i]._id for i in range(len(_final[key]))]
+
+                if allTypesOfForeignKeys[index] == ObjectManager.EmbeddedMultiForeignKey:
+                    print("Hint: EmbeddedMultiForeignKey is currently not supported in update method. Please check that your objects are ids as strings.")
+
+                if allTypesOfForeignKeys[index] == ObjectManager.EmbeddedMultiToMultiForeignKey:
+                    print("Hint: EmbeddedMultiToMultiForeignKey is currently not supported in update method. Please check that your objects are ids as strings.")
+
+
+                if allTypesOfForeignKeys[index] == ObjectManager.NestedConditionedForeignKey:
+                    print("Hint: NestedConditionedForeignKey is currently not supported in update method. Please check that your objects are ids as strings.")
+
+
             final = {}
-            for key in _final:
+            for key in __final:
                 if key.upper() in keysOfForeignKeys and key != "_id":
                     continue
                 
                 if key == "objects" or key == "Meta":
                     continue
                                 
-                if str(type(_final[key])) == "<class 'method'>":
+                if str(type(__final[key])) == "<class 'method'>":
                     continue
                 
-                final[key] = _final[key]
+                final[key] = __final[key]
             
             return Connection().updateDocument(self.__collection__, {"_id": ObjectId(_id)}, final)
         
