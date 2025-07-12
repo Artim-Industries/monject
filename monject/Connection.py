@@ -40,7 +40,13 @@ class Connection:
             },
             "note": "This is a paginated response. Use the page parameter to navigate through the response or disable pagination by settings items = 0."
         } if len(documents) > items else {
-            "data": documents
+            "data": documents,
+            "pagination": {
+                "total": len(documents),
+                "items": items,
+                "page": page,
+                "pages": len(documents) // items if items > 0 else 1
+            },
         }
 
         return documents
@@ -61,7 +67,13 @@ class Connection:
             },
             "note": "This is a paginated response. Use the page parameter to navigate through the response or disable pagination by settings items = 0."
         } if len(documents) > items else {
-            "data": documents
+            "data": documents,
+            "pagination": {
+                "total": len(documents),
+                "items": items,
+                "page": page,
+                "pages": len(documents) // items if items > 0 else 1
+            },
         }
     
         return documents
