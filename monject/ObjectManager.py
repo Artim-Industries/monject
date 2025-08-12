@@ -457,10 +457,10 @@ class ObjectManager:
             __final = copy.deepcopy(_final)
             for index, key in enumerate(allKeysOfForeignKeys):
                 if allTypesOfForeignKeys[index] == ObjectManager.ForeignKey:
-                    __final[key] = _final[key]._id
+                    __final[key] = str(_final[key]._id)
 
                 if allTypesOfForeignKeys[index] == ObjectManager.MultiForeignKey:
-                    __final[key] = [_final[key][i]._id for i in range(len(_final[key]))]
+                    __final[key] = [str(_final[key][i]._id) for i in range(len(_final[key]))]
 
                 if allTypesOfForeignKeys[index] == ObjectManager.EmbeddedMultiForeignKey:
                     print("Hint: EmbeddedMultiForeignKey is currently not supported in update method. Please check that your objects are ids as strings.")
