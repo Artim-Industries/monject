@@ -76,7 +76,7 @@ setattr(user, "email", "john@doe.com")
 user.objects.update()
 
 # delete
-user = User().objects,get("some_user_id")
+user = User().objects.get("some_user_id")
 user.objects.delete()
 ```
 
